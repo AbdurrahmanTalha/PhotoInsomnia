@@ -3,14 +3,15 @@ import { Button, Form } from 'react-bootstrap';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from "../../firebase.init";
 const SignUp = () => {
-    const [
-        createUserWithEmailAndPassword,
-        user,
-        loading,
-        error,
-    ] = useCreateUserWithEmailAndPassword(auth);
+    const [createUserWithEmailAndPassword, user, loading, error,] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
+
+    // const [sendEmailVerification, sending, emailErr] = useSendEmailVerification(
+    //     auth
+    // );
+
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
+    const [confirmPass, setConfirmPass] = useState('')
     const [err, setErr] = useState('')
     const handleEmailBlur = e => {
         setEmail(e.target.value)
@@ -18,10 +19,24 @@ const SignUp = () => {
     const handlePassBlur = e => {
         setPass(e.target.value)
     }
-    const handleSignup = e => {
-        e.preventDefault()
-        createUserWithEmailAndPassword(email, pass)
+    const handleConfirmPassBlur = e => {
+        setConfirmPass(e.target.value)
     }
+    const handleSignup = async e => {
+        e.preventDefault()
+        if (pass !== confirmPass) {
+            setErr("Password Doesnt match Confirm pass")
+            return
+        } else {
+            createUserWithEmailAndPassword(email, pass)
+        }
+        // await sendEmailVerification();
+        // alert('Sent email');
+
+    }
+   
+
+
     if (loading) {
         return <p>Loading...</p>;
     }
@@ -41,9 +56,11 @@ const SignUp = () => {
                     <Form.Label>Password</Form.Label>
                     <Form.Control onBlur={handlePassBlur} type="password" placeholder="Password" />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control onBlur={handleConfirmPassBlur} type="password" placeholder="Password" />
                 </Form.Group>
+                <p>{err || error?.message}</p>
                 <Button variant="primary" type="submit">
                     Sign Up
                 </Button>
