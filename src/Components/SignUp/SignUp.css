@@ -1,0 +1,31 @@
+.or-text {
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 20px;
+    letter-spacing: 0.005em;
+    text-transform: lowercase;
+    color: #95A0A7;
+}
+
+.or-border {
+    width: 145px;
+    height: 0px;
+    border: 1px solid #95A0A7;
+    margin-left: 26px;
+    margin-right: 22px;
+}
+
+.signUp-btn {
+    width: 415px;
+    height: 55px;
+    border: 1px solid #95A0A7;
+    width: 100%;
+    background-color: #fff;
+
+}
+
+.sign-img {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+}

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from "../../firebase.init";
+import "./SignUp.css"
 const SignUp = () => {
     const [createUserWithEmailAndPassword, user, loading, error,] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
-
+    const [signInWithGoogle, user1, loading2, error2] = useSignInWithGoogle(auth);
     // const [sendEmailVerification, sending, emailErr] = useSendEmailVerification(
     //     auth
     // );
@@ -32,12 +33,14 @@ const SignUp = () => {
         }
         // await sendEmailVerification();
         // alert('Sent email');
-
+    }
+    const handleSignUpWithGoogle = e => {
+        signInWithGoogle()
     }
    
 
 
-    if (loading) {
+    if (loading || loading2) {
         return <p>Loading...</p>;
     }
     return (
@@ -60,10 +63,18 @@ const SignUp = () => {
                     <Form.Label>Confirm Password</Form.Label>
                     <Form.Control onBlur={handleConfirmPassBlur} type="password" placeholder="Password" />
                 </Form.Group>
-                <p>{err || error?.message}</p>
-                <Button variant="primary" type="submit">
+                <p>{err || error?.message || error2?.message}</p>
+                <Button variant="primary" type="submit" className="w-100">
                     Sign Up
                 </Button>
+                <div className="d-flex justify-content-center align-items-center my-3">
+                    <div className="or-border mr-3"></div>
+                    <h2 className="or-text">OR</h2>
+                    <div className="or-border ml-3"></div>
+                </div>
+
+                <button className="signUp-btn" onClick={handleSignUpWithGoogle}><img className="sign-img" src="google.png" alt="googleimg"/>Sign Up With Google</button>
+
             </Form>
         </div>
     );
