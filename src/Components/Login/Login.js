@@ -46,6 +46,7 @@ const Login = () => {
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
                     <Form.Control onBlur={handlePassBlur} type="password" placeholder="Password" />
+                    <p>Forgot your password??</p>
                 </Form.Group>
                 
                 <p>{error?.message || error2?.message}</p>

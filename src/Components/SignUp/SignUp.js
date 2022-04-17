@@ -1,3 +1,4 @@
+import { sendEmailVerification } from 'firebase/auth';
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
@@ -33,14 +34,20 @@ const SignUp = () => {
         } else {
             createUserWithEmailAndPassword(email, pass)
             navigate("/")
+            verifyEmail()
         }
         // await sendEmailVerification();
         // alert('Sent email');
     }
     const handleSignUpWithGoogle = e => {
         signInWithGoogle()
+    } 
+    const verifyEmail = () => {
+        sendEmailVerification(auth.currentUser)
+            .then(() => {
+            alert("sended verifaction email")
+        })
     }
-   
 
 
     if (loading || loading2) {
