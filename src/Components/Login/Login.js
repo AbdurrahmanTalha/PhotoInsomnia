@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { Link } from 'react-router-dom';
 import auth from '../../firebase.init';
 
 const Login = () => {
@@ -31,7 +32,7 @@ const Login = () => {
         signInWithGoogle()
     }
     return ( 
-        <div className='w-50 mx-auto'>
+        <div className='w-50 mx-auto my-5'>
             <h2>Please Login</h2>
             <Form onSubmit={handleLogin}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -46,6 +47,7 @@ const Login = () => {
                 </Form.Group>
                 
                 <p>{error?.message || error2?.message}</p>
+                <p>New to travel Insomnia? <Link to="/signup">Join now</Link></p>
                 <Button variant="primary" className="w-100" type="submit">
                     Login
                 </Button>
@@ -55,7 +57,7 @@ const Login = () => {
                     <div className="or-border ml-3"></div>
                 </div>
 
-                <button className="signUp-btn" onClick={handleSignInWithGoogle}><img className="sign-img" src="google.png" alt="googleimg" />Sign Up With Google</button>
+                <button className="signUp-btn" onClick={handleSignInWithGoogle}><img className="sign-img" src="google.png" alt="googleimg" />Sign In With Google</button>
             </Form>
         </div>
     );

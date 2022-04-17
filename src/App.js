@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Routes } from 'react-router-dom';
 // import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import Blogs from './Components/Blogs/Blogs';
+import Footer from './Components/Footer/Footer';
 import Home from './Components/Home/Home';
 import Login from './Components/Login/Login';
 import Navbar from './Components/Navbar/Navbar';
@@ -16,7 +18,9 @@ function App() {
       <Route path="/" element={<Home></Home>}></Route>
       <Route path="/signup" element={<SignUp></SignUp>}></Route>
       <Route path="/login" element={<Login></Login>}></Route>
-    </Routes> 
+        <Route path="/blogs" element={<Blogs></Blogs>}></Route>
+      </Routes> 
+      <Footer></Footer>
   </div>)
 
 

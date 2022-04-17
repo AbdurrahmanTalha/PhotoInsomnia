@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { Link } from 'react-router-dom';
 import auth from "../../firebase.init";
 import "./SignUp.css"
 const SignUp = () => {
@@ -64,6 +65,8 @@ const SignUp = () => {
                     <Form.Control onBlur={handleConfirmPassBlur} type="password" placeholder="Password" />
                 </Form.Group>
                 <p>{err || error?.message || error2?.message}</p>
+
+                <p>Already have a account <Link to="/login">Login</Link></p>
                 <Button variant="primary" type="submit" className="w-100">
                     Sign Up
                 </Button>
