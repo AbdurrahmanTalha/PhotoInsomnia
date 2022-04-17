@@ -1,11 +1,14 @@
+// Imports
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-
 import { Link } from 'react-router-dom';
 import auth from '../../firebase.init';
 import "./Navbar.css"
 import { signOut } from "firebase/auth"
+
+
 const Navbar = () => {
+    // States
     const [user, loading, error] = useAuthState(auth);
     if (loading) {
         return <h2>Loading...</h2>
@@ -17,7 +20,7 @@ const Navbar = () => {
         <div>
             <nav className="nav">
                 <div className="logo">
-                    <h2>Travel Insomnia</h2>
+                    <h2><Link to="/" className="logo-item">Photo Insomnia</Link></h2>
                 </div>
                 <div className="ul-container">
                     <ul className="items d-flex justify-content-center">

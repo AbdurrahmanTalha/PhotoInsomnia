@@ -3,7 +3,7 @@ import "./Footer.css"
 const Footer = () => {
     return (
         <div className="footer">
-            <p>&copy; righted By Abdur Rahman Talha</p>
+            <p className="fw-bold">&copy; Copyrighted By Abdur Rahman Talha</p>
         </div>
     );
 };

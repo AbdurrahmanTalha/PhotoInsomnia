@@ -16,3 +16,16 @@
     cursor: pointer;
     margin: 10px;
 }
+
+.logo-item {
+    text-decoration: none;
+    color: #333;
+    transition: 0.3s all ease-in-out;
+    -webkit-transition: 0.3s all ea;
+    -moz-transition: 0.3s all ea;
+    -ms-transition: 0.3s all ea;
+    -o-transition: 0.3s all ea;
+} 
+.logo-item:hover {
+    color: #ff3636;
+}

@@ -1,13 +1,16 @@
+// Imports
+
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Spinner } from 'react-bootstrap';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import auth from "../../firebase.init";
 import "./SignUp.css"
 import { ToastContainer, toast } from 'react-toastify';
 const SignUp = () => {
-    const [signInWithGoogle, googleUser, loading, error] = useSignInWithGoogle(auth);
+    // variables and states
+    const [signInWithGoogle,  loading, error] = useSignInWithGoogle(auth);
 
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
@@ -27,17 +30,17 @@ const SignUp = () => {
     const handleSignup = e => {
         e.preventDefault()
         if (pass !== confirmPass) {
-            setErr("Confirm Password doesnt Match Password ")
+            setErr("Confirm Password does'nt Match Password ")
         } else {
+            setErr('')
             createUserWithEmailAndPassword(auth, email, pass)
                 .then((userCredential) => {
-                    // Signed in 
                     const user = userCredential.user;
                     verifyEmail()
-                    console.log(user)
+                    navigate("/")
+                    setErr('')
                 })
                 .catch((error) => {
-                    const errorCode = error.code;
                     const errorMessage = error.message;
                     setErr(errorMessage)
                 });
@@ -46,17 +49,19 @@ const SignUp = () => {
     }
     const handleSignUpWithGoogle = e => {
         signInWithGoogle()
+        navigate("/")
+
     }
     const verifyEmail = () => {
         sendEmailVerification(auth.currentUser)
             .then(() => {
-                toast("Sended verifaction email")
+                toast("Sended verification email")
             })
     }
 
 
     if (loading) {
-        return <p>Loading...</p>;
+        return <Spinner animation="grow" variant="dark" />
     }
     return (
         <div className='w-50 mx-auto my-5'>
@@ -64,7 +69,7 @@ const SignUp = () => {
             <Form onSubmit={handleSignup}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control onBlur={handleEmailBlur} type="email" placeholder="Enter email" />
+                    <Form.Control onBlur={handleEmailBlur} required type="email" placeholder="Enter email" />
                     <Form.Text className="text-muted">
                         We'll never share your email with anyone else.
                     </Form.Text>
@@ -72,13 +77,13 @@ const SignUp = () => {
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control onBlur={handlePassBlur} type="password" placeholder="Password" />
+                    <Form.Control onBlur={handlePassBlur} required type="password" placeholder="Password" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control onBlur={handleConfirmPassBlur} type="password" placeholder="Password" />
+                    <Form.Control onBlur={handleConfirmPassBlur} required type="password" placeholder="Password" />
                 </Form.Group>
-                <p className='text-danger'>{err}</p>
+                <p className='text-danger'>{err || error?.message}</p>
 
                 <p>Already have a account <Link to="/login">Login</Link></p>
                 <Button variant="primary" type="submit" className="w-100">
