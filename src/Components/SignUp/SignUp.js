@@ -1,22 +1,20 @@
-import { sendEmailVerification } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import auth from "../../firebase.init";
 import "./SignUp.css"
+import { ToastContainer, toast } from 'react-toastify';
 const SignUp = () => {
-    const [createUserWithEmailAndPassword, user, loading, error,] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
-    const [signInWithGoogle, user1, loading2, error2] = useSignInWithGoogle(auth);
-    // const [sendEmailVerification, sending, emailErr] = useSendEmailVerification(
-    //     auth
-    // );
+    const [signInWithGoogle, googleUser, loading, error] = useSignInWithGoogle(auth);
 
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
     const [confirmPass, setConfirmPass] = useState('')
     const [err, setErr] = useState('')
     const navigate = useNavigate()
+
     const handleEmailBlur = e => {
         setEmail(e.target.value)
     }
@@ -26,31 +24,38 @@ const SignUp = () => {
     const handleConfirmPassBlur = e => {
         setConfirmPass(e.target.value)
     }
-    const handleSignup = async e => {
+    const handleSignup = e => {
         e.preventDefault()
         if (pass !== confirmPass) {
-            setErr("Password Doesnt match Confirm pass")
-            return
+            setErr("Confirm Password doesnt Match Password ")
         } else {
-            createUserWithEmailAndPassword(email, pass)
-            navigate("/")
-            verifyEmail()
+            createUserWithEmailAndPassword(auth, email, pass)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    verifyEmail()
+                    console.log(user)
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErr(errorMessage)
+                });
         }
-        // await sendEmailVerification();
-        // alert('Sent email');
+
     }
     const handleSignUpWithGoogle = e => {
         signInWithGoogle()
-    } 
+    }
     const verifyEmail = () => {
         sendEmailVerification(auth.currentUser)
             .then(() => {
-            alert("sended verifaction email")
-        })
+                alert("sended verifaction email")
+            })
     }
 
 
-    if (loading || loading2) {
+    if (loading) {
         return <p>Loading...</p>;
     }
     return (
@@ -73,7 +78,7 @@ const SignUp = () => {
                     <Form.Label>Confirm Password</Form.Label>
                     <Form.Control onBlur={handleConfirmPassBlur} type="password" placeholder="Password" />
                 </Form.Group>
-                <p>{err || error?.message || error2?.message}</p>
+                <p className='text-danger'>{err}</p>
 
                 <p>Already have a account <Link to="/login">Login</Link></p>
                 <Button variant="primary" type="submit" className="w-100">
@@ -85,7 +90,7 @@ const SignUp = () => {
                     <div className="or-border ml-3"></div>
                 </div>
 
-                <button className="signUp-btn" onClick={handleSignUpWithGoogle}><img className="sign-img" src="google.png" alt="googleimg"/>Sign Up With Google</button>
+                <button className="signUp-btn" onClick={handleSignUpWithGoogle}><img className="sign-img" src="google.png" alt="googleimg" />Sign Up With Google</button>
 
             </Form>
         </div>
