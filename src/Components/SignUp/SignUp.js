@@ -1,7 +1,7 @@
-import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import auth from "../../firebase.init";
 import "./SignUp.css"
@@ -50,7 +50,7 @@ const SignUp = () => {
     const verifyEmail = () => {
         sendEmailVerification(auth.currentUser)
             .then(() => {
-                alert("sended verifaction email")
+                toast("Sended verifaction email")
             })
     }
 
@@ -91,7 +91,7 @@ const SignUp = () => {
                 </div>
 
                 <button className="signUp-btn" onClick={handleSignUpWithGoogle}><img className="sign-img" src="google.png" alt="googleimg" />Sign Up With Google</button>
-
+                <ToastContainer />
             </Form>
         </div>
     );

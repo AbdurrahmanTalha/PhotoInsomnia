@@ -12,7 +12,6 @@ import Navbar from './Components/Navbar/Navbar';
 import Notfound from './Components/Notfound/Notfound';
 import RequireAuth from './Components/RequireAuth/RequireAuth';
 import SignUp from './Components/SignUp/SignUp';
-
 function App() {
   return (
     <div>

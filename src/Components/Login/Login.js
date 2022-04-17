@@ -3,7 +3,8 @@ import { Button, Form } from 'react-bootstrap';
 import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 const Login = () => {
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
@@ -21,26 +22,25 @@ const Login = () => {
     const handlePassBlur = e => {
         setPass(e.target.value)
     }
-    if (loading || loading2) {
-        return <h2>Loading...</h2>
-    }
     const handleLogin = e => {
         e.preventDefault();
+        toast("Successfuly logged in! ")
         signInWithEmailAndPassword(email, pass)
-        navigate("/")
+
     }
     const handleSignInWithGoogle = e => {
         signInWithGoogle()
-        navigate("/")
+        toast("Successfuly logged in! ")
+
     }
-    return ( 
+    return (
         <div className='w-50 mx-auto my-5'>
             <h2>Please Login</h2>
             <Form onSubmit={handleLogin}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control onBlur={handleEmailBlur} type="email" placeholder="Enter email" />
-                    
+
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -48,7 +48,7 @@ const Login = () => {
                     <Form.Control onBlur={handlePassBlur} type="password" placeholder="Password" />
                     <p>Forgot your password??</p>
                 </Form.Group>
-                
+
                 <p>{error?.message || error2?.message}</p>
                 <p>New to travel Insomnia? <Link to="/signup">Join now</Link></p>
                 <Button variant="primary" className="w-100" type="submit">
@@ -62,6 +62,7 @@ const Login = () => {
 
                 <button className="signUp-btn" onClick={handleSignInWithGoogle}><img className="sign-img" src="google.png" alt="googleimg" />Sign In With Google</button>
             </Form>
+            <ToastContainer />
         </div>
     );
 };
