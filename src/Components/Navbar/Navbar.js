@@ -21,9 +21,9 @@ const Navbar = () => {
                 </div>
                 <div className="ul-container">
                     <ul className="items d-flex justify-content-center">
-                        <li><Link to="/" className="nav-item">Home</Link></li>
-                        <li><Link to="#" className="nav-item">Services</Link></li>
+                        <li><Link to="/" className="nav-item">Home</Link></li>                        
                         <li><Link to="/blogs" className="nav-item">Blogs</Link></li>
+                        <li><Link to="/about" className="nav-item">About</Link></li>
                         {
                             user ? <li><button onClick={signOutBtn} className="nav-item">Sign Out</button ></li>  : <li><Link to="/login" className="nav-item">Login</Link></li>
                         }

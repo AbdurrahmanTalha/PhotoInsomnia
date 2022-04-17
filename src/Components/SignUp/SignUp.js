@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import auth from "../../firebase.init";
 import "./SignUp.css"
 const SignUp = () => {
@@ -15,6 +15,7 @@ const SignUp = () => {
     const [pass, setPass] = useState('')
     const [confirmPass, setConfirmPass] = useState('')
     const [err, setErr] = useState('')
+    const navigate = useNavigate()
     const handleEmailBlur = e => {
         setEmail(e.target.value)
     }
@@ -31,6 +32,7 @@ const SignUp = () => {
             return
         } else {
             createUserWithEmailAndPassword(email, pass)
+            navigate("/")
         }
         // await sendEmailVerification();
         // alert('Sent email');

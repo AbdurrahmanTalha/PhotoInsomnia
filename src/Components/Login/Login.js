@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
 
 const Login = () => {
@@ -13,6 +13,7 @@ const Login = () => {
         loading,
         error,
     ] = useSignInWithEmailAndPassword(auth);
+    const navigate = useNavigate()
     const [signInWithGoogle, user1, loading2, error2] = useSignInWithGoogle(auth);
     const handleEmailBlur = e => {
         setEmail(e.target.value)
@@ -25,11 +26,12 @@ const Login = () => {
     }
     const handleLogin = e => {
         e.preventDefault();
-
         signInWithEmailAndPassword(email, pass)
+        navigate("/")
     }
     const handleSignInWithGoogle = e => {
         signInWithGoogle()
+        navigate("/")
     }
     return ( 
         <div className='w-50 mx-auto my-5'>
